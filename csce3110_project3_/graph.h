@@ -8,6 +8,7 @@
 #include<stack>
 #include<deque>
 #include<set>
+#include<algorithm>
 #include"vertex.h"
 using namespace std;
 
@@ -23,11 +24,13 @@ public:
   void update_vertex_parameters();
   void print_vertex_parameters();
   void input_graph_data();
-  void calculate_shortest_paths(char);
+  void calculate_shortest_paths(char,int=0);
   char print_shortest_paths(char,int=0);
   bool empty();
   map<char,Vertex> vertexes{};
   deque<Vertex*> dijkstra_queue{};
+  Vertex* source;
+  bool source_set;
 };
 
 
