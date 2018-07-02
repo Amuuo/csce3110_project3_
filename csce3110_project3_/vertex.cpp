@@ -67,6 +67,6 @@ Vertex* Vertex::operator=(Vertex* v) {
 
 void Vertex::printAdjacencyList() {
   for (auto& adj_vertex : adj)
-    printf("->{%c,%d}",adj_vertex.first,adj_vertex.second);
+    printf("->[%c,%d]",adj_vertex.first,adj_vertex.second);
 }
 

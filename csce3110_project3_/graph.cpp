@@ -4,13 +4,11 @@
 
 Graph::Graph() : vertexes{} {}
 
-Graph::Graph(const Graph & g) { 
+Graph::Graph(const Graph& g) { 
   vertexes = g.vertexes;
 }
 
-Graph::Graph(Graph && g) : vertexes{g.vertexes} {  
-  g.vertexes.clear();
-}
+Graph::Graph(Graph&& g) : vertexes{move(g.vertexes)} {}
 
 /* insert vertex into graph's vertex map<char,Vertex> */
 void Graph::insertVertex(Vertex&& v) {  
@@ -56,7 +54,7 @@ void Graph::inputGraphData() {
 
   // open input file & check for error
   printf("\n\tEnter input filename: ");
-  cin>>filename;
+  cin >> filename;
   inStream.open(filename);      
   
   if (inStream.fail()) { 
@@ -119,8 +117,8 @@ void Graph::calculateShortestPaths(char currVertexName,
 }
 
 void Graph::printShortestPaths(char vertex_name) {
-  stack<Vertex*> pathToSource;     // stack to hold each vertex until start
-  Vertex*        currVertex{};     // current vertex in main for-loop
+  stack<Vertex*> pathToStart;   // stack to hold each vertex until start
+  Vertex*        currVertex{};  // current vertex in main for-loop
   
   /* iterate through all vertexes */
   for (auto& v : vertexes) { currVertex = v.second;     
@@ -128,21 +126,21 @@ void Graph::printShortestPaths(char vertex_name) {
     if (currVertex->getDist() != inf) { 
       /* push vertexes into stack until tmp->path == starting vertex */      
       do {
-        pathToSource.push(currVertex);
+        pathToStart.push(currVertex);
         currVertex = vertexes[currVertex->getPath()];
       } while (currVertex->getName() != pathStart->getName());
 
-      printf("\n\t%c",pathStart->getName());  
-      while (!pathToSource.empty()) {
-        printf("->%c",pathToSource.top()->getName());                
-        pathToSource.pop();
-      } printf(" : %d",v.second->getDist());      
+      printf("\n\t%d : ",v.second->getDist()); 
+      printf("%c",pathStart->getName());  
+      while (!pathToStart.empty()) {
+        printf("->%c",pathToStart.top()->getName());                
+        pathToStart.pop();
+      }      
     
     } else { printf("\n\tNo path to %c",currVertex->getName()); }
   }
   // reset vertex parameters
   resetVertexes();
-  updateVertexParameters();
 }
 
 void Graph::printVertexesIndegree() {
@@ -155,7 +153,6 @@ void Graph::resetVertexes() {
     v.second->setDist(inf);
     v.second->setPath('\0');
     v.second->setKnown(false);
-    v.second->setIndegree(0);
   }
 }
 

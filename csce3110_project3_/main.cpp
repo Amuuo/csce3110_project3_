@@ -14,39 +14,42 @@ void print_menu(Graph& graph, const char* s="") {
   if (s != "") printf("\n\n\t>> %s",s);
 
   printf("\n\n\tSelection: "); cin >> menu_choice;
-   
+  
+  system("clear");
+
   switch (menu_choice) {
     
-    case 1:
-      system("clear");
+    case 1:      
+      graph.vertexes.clear();
       graph.inputGraphData();      
       graph.updateVertexParameters();
       print_menu(graph);
       break;
     
-    case 2: 
-      system("clear");
+    case 2:       
       graph.printVertexParameters(); 
       print_menu(graph);
       break;
     
     case 3:{
-      char name;   
+      char name; // char to store vertex name
+
+      /* print all available vertexes to choose from */
+      input_check:
       printf("\n\tAvailable Vertexes: ");
       for (auto& v : graph.vertexes) {
         printf("%c%c ",v.first, 
-               ++graph.vertexes.find(v.first)!=graph.vertexes.end()?',':'\n');
+                ++graph.vertexes.find(v.first)!=graph.vertexes.end()?',':'\n');
       }
-      insert_vertex:;
-      printf("\n\tInsert Source Vertex: "); cin >> name; 
-      system("clear");
-      auto check = graph.vertexes.find(name);
-      if (check == graph.vertexes.end()){
-        //system("clear");
-        printf("\n\tThat vertex doesn't exist...\n");
-        //print_menu(graph);
-        goto insert_vertex;
+      /* check for vertex input errors and repeat if necessary */
+      printf("\n\tInsert Starting Vertex: "); cin >> name;             
+      if(graph.vertexes.find(name) == graph.vertexes.end()){
+        system("clear");
+        printf("\n\tThat vertex doesn't exist...\n");                
+        goto input_check;
       }
+      
+      
       graph.pathStart = graph.vertexes[name];
       graph.pathStart->setKnown(true);
       graph.pathStart->setPath(name);
@@ -58,19 +61,19 @@ void print_menu(Graph& graph, const char* s="") {
     }
     
     case 4: 
-      system("clear");
+      //system("clear");
       graph.printVertexes(); 
       print_menu(graph); 
       break;
     
     case 5: 
-      system("clear");
+      //system("clear");
       graph.printVertexesIndegree();
       print_menu(graph);
       break;
     
     case 6:
-      system("clear");
+      //system("clear");
       graph.printTopologicalSort();
       break;
 
