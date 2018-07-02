@@ -95,7 +95,7 @@ void Graph::calculate_shortest_paths(char vertex_name, int distance) {
   if (!source_set){
     vertexes[vertex_name]->set_dist(0);
     vertexes[vertex_name]->set_known(true);
-    vertexes[vertex_name]->set_path('\0');
+    vertexes[vertex_name]->set_path(vertex_name);
     source = vertexes[vertex_name];
     source_set = true;
     //dijkstra_queue.push_front(&vertexes[vertex_name]);
@@ -151,19 +151,20 @@ void Graph::print_shortest_paths(char vertex_name) {
       
       do {
         paths.push(tmp);
-        if(tmp->get_path() != 0) tmp = vertexes[tmp->get_path()];
-      } while (tmp->get_path() != '\0');
+        //if(tmp->get_path() != '\0') 
+        tmp = vertexes[tmp->get_path()];
+      } while (tmp->get_name() != source->get_name());
       
-      cout << "\n" << source->get_name() ;
+      printf("\n\t%c",source->get_name());
       
       while (!paths.empty()) {
-        cout << "->" << paths.top()->get_name();
+        printf("->%c",paths.top()->get_name());        
         paths.pop();
       }
-      cout << " : " << v.second->get_dist();
+      printf(" : %d",v.second->get_dist());      
     }
     else {
-      cout << "\nNo path to " << v.second->get_name();
+      printf("\n\tNo path to %c",v.second->get_name());      
     }
   }
   reset_vertexes();
@@ -181,7 +182,7 @@ void Graph::reset_vertexes() {
     v.second->set_path('\0');
     v.second->set_known(false);
   }
-  source = nullptr;
+  source_set = false;
 }
 /*checks if graph is empty*/
 bool Graph::empty() {
