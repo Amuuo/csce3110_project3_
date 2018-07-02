@@ -8,7 +8,8 @@ void print_menu(Graph& graph, const char* s="") {
   printf("\n\t3 - Print Single-Source Shortest Paths");
   printf("\n\t4 - Print Adjacency List");
   printf("\n\t5 - Print Indegree of Each Vertex");
-  printf("\n\t6 - Exit");
+  printf("\n\t6 - Print Topological Sort of Graph");
+  printf("\n\t7 - Exit");
 
   if (s != "") printf("\n\n\t>> %s",s);
 
@@ -30,22 +31,28 @@ void print_menu(Graph& graph, const char* s="") {
       break;
     
     case 3:{
-      char name;       
-      insert_vertex:
+      char name;   
+      printf("\n\tAvailable Vertexes: ");
+      for (auto& v : graph.vertexes) {
+        printf("%c%c ",v.first, 
+               ++graph.vertexes.find(v.first)!=graph.vertexes.end()?',':'\n');
+      }
+      insert_vertex:;
       printf("\n\tInsert Source Vertex: "); cin >> name; 
+      system("clear");
+      auto check = graph.vertexes.find(name);
+      if (check == graph.vertexes.end()){
+        //system("clear");
+        printf("\n\tThat vertex doesn't exist...\n");
+        //print_menu(graph);
+        goto insert_vertex;
+      }
       graph.pathStart = graph.vertexes[name];
       graph.pathStart->setKnown(true);
       graph.pathStart->setPath(name);
       graph.pathStart->setDist(0);
-      system("clear");
-      try {
-        graph.calculateShortestPaths(graph.pathStart->getName());                
-        graph.printShortestPaths(graph.pathStart->getName());
-      }
-      catch(exception& e){
-        printf("\n\tThat vertex doesn't exist (%s)",e.what());
-        goto insert_vertex;
-      }
+      graph.calculateShortestPaths(graph.pathStart->getName());                
+      graph.printShortestPaths(graph.pathStart->getName());
       print_menu(graph);
       break;
     }
@@ -62,7 +69,13 @@ void print_menu(Graph& graph, const char* s="") {
       print_menu(graph);
       break;
     
-    case 6: 
+    case 6:
+      system("clear");
+      graph.printTopologicalSort();
+      break;
+
+    case 7:
+      printf("\n\nExiting program...");
       exit(1); 
       break;
     

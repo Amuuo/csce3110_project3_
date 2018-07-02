@@ -16,10 +16,7 @@ Vertex::Vertex(char c) :
   path     {},                       
   isKnown  {false} {}
 
-Vertex::Vertex(const Vertex& v) {
-  for (auto v : v.adj) {
-    adj[v.first] = v.second;
-  }
+Vertex::Vertex(const Vertex& v) {        
   adj      = v.adj;
   indegree = v.indegree;
   dist     = v.dist;
@@ -29,9 +26,7 @@ Vertex::Vertex(const Vertex& v) {
 }
 
 Vertex::Vertex(Vertex&& v) {  
-  for (auto& v : v.adj) {
-    adj[move(v.first)] = move(v.second);
-  }
+  adj      = move(v.adj);
   indegree = move(v.indegree);
   dist     = move(v.dist);
   name     = move(v.name);

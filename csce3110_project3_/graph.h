@@ -28,6 +28,7 @@ public:
   void printShortestPaths(char);
   void printVertexesIndegree();
   void resetVertexes();
+  void printTopologicalSort();
   bool empty();
   
   const int          inf = numeric_limits<int>::max();

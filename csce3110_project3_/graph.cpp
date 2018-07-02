@@ -159,6 +159,9 @@ void Graph::resetVertexes() {
   }
 }
 
+void Graph::printTopologicalSort() {
+}
+
 /*checks if graph is empty*/
 bool Graph::empty() {  
   if(vertexes.empty()) {
