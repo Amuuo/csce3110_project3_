@@ -25,9 +25,12 @@ public:
   void print_vertex_parameters();
   void input_graph_data();
   void calculate_shortest_paths(char,int=0);
-  void print_shortest_paths(char,int=0);
+  void print_shortest_paths(char);
+  void print_vertexes_indegree();
+  void reset_vertexes();
+  const int inf = numeric_limits<int>::max();
   bool empty();
-  map<char,Vertex> vertexes{};
+  map<char,Vertex*> vertexes{};
   deque<Vertex*> dijkstra_queue{};
   Vertex* source;
   bool source_set;
