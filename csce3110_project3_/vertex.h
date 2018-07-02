@@ -14,7 +14,7 @@ public:
   
   void printAdjacencyList();
 
-  // GETTERS
+  /* GETTERS */
   const map<char,int>& getAdj();
   const int&  getIndegree();
   const int&  getDist();
@@ -22,7 +22,7 @@ public:
   const char& getPath();
   const bool& getIsKnown();
   
-  // SETTERS
+  /* SETTERS */
   void setAdjVertex(char,int);
   void setDist(int);
   void setName(char);

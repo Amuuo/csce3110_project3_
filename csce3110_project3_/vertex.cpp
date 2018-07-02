@@ -45,8 +45,8 @@ const char& Vertex::getName()     { return name;     }
 const char& Vertex::getPath()     { return path;     }
 const bool& Vertex::getIsKnown()  { return isKnown;  }
 const map_& Vertex::getAdj()      { return adj;      }
-const int & Vertex::getIndegree() { return indegree; }
-const int & Vertex::getDist()     { return dist;     }
+const int&  Vertex::getIndegree() { return indegree; }
+const int&  Vertex::getDist()     { return dist;     }
 
 // SETTERS
 void Vertex::setDist(int i)             { dist     = i; }

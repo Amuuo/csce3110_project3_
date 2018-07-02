@@ -18,6 +18,7 @@ public:
   Graph();
   Graph(const Graph&);
   Graph(Graph&&);
+
   void insertVertex(Vertex&&);
   void printVertexes();
   void updateVertexParameters();
@@ -27,11 +28,12 @@ public:
   void printShortestPaths(char);
   void printVertexesIndegree();
   void resetVertexes();
-  const int inf = numeric_limits<int>::max();
   bool empty();
-  map<char,Vertex*> vertexes{};
-  deque<Vertex*> dijkstraQueue{};
-  Vertex* pathStart;
+  
+  const int          inf = numeric_limits<int>::max();
+  map<char,Vertex*>  vertexes{};
+  deque<Vertex*>     dijkstraQueue{};
+  Vertex*            pathStart;
 };
 
 

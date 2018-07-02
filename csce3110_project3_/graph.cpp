@@ -81,7 +81,8 @@ void Graph::inputGraphData() {
   }  
 }
 
-void Graph::calculateShortestPaths(char currVertexName,int currDistFromSource) {
+void Graph::calculateShortestPaths(char currVertexName,
+                                   int currDistFromSource) {
   // all variables to help make code more readable  
   Vertex* adjacentVertex{};             
   Vertex* currentVertex = vertexes[currVertexName];
@@ -94,7 +95,7 @@ void Graph::calculateShortestPaths(char currVertexName,int currDistFromSource) {
 
     if (!adjacentVertex->getIsKnown()) {            
       
-      if (distFromCurr+currDistFromSource <= adjacentVertex->getDist()) {
+      if (distFromCurr+currDistFromSource<=adjacentVertex->getDist()) {
         adjacentVertex->setDist(distFromCurr+currDistFromSource);
         adjacentVertex->setPath(currVertexName);
       }
