@@ -74,58 +74,52 @@ void Graph::inputGraphData() {
 
     while (iss){
       iss >> vertexDistance >> vertexName;
-      if (vertexName != '\0') v.setAdjVertex(vertexName, 
-                                               vertexDistance);          
+      if (vertexName != '\0') 
+        v.setAdjVertex(vertexName,vertexDistance);          
     }  
     vertexes[v.getName()] = new Vertex{v};
   }  
 }
 
-void Graph::calculateShortestPaths(char currVertexName, 
-                                   int  currDistFromSource) {
-
-    // all variables to help make code more readable  
-    Vertex* adjacentVertex{};             
-    Vertex* currentVertex = vertexes[currVertexName];
-    int     distFromCurr;
+void Graph::calculateShortestPaths(char currVertexName,int currDistFromSource) {
+  // all variables to help make code more readable  
+  Vertex* adjacentVertex{};             
+  Vertex* currentVertex = vertexes[currVertexName];
+  int     distFromCurr;
     
-    // run dijkstra's
-    for (auto& v : currentVertex->getAdj()) {    
-      
-      adjacentVertex = vertexes[v.first];
-      distFromCurr   = v.second;
+  // run dijkstra's
+  for (auto& v : currentVertex->getAdj()) {          
+    adjacentVertex = vertexes[v.first];
+    distFromCurr   = v.second;
 
-      if (!adjacentVertex->getIsKnown()) {            
+    if (!adjacentVertex->getIsKnown()) {            
       
-        if (distFromCurr+currDistFromSource <= adjacentVertex->getDist()) {
-          adjacentVertex->setDist(distFromCurr+currDistFromSource);
-          adjacentVertex->setPath(currVertexName);
-        }
-        if (distFromCurr<=currentVertex->getDist()){
-          dijkstraQueue.push_front(adjacentVertex);                        
-        } else { dijkstraQueue.push_back(adjacentVertex); }         
+      if (distFromCurr+currDistFromSource <= adjacentVertex->getDist()) {
+        adjacentVertex->setDist(distFromCurr+currDistFromSource);
+        adjacentVertex->setPath(currVertexName);
       }
-    }
-
-    while (!dijkstraQueue.empty()){    
-      // check if there are multiple equivalent minimum distances
-      // and set each to known value to known
-      int size = dijkstraQueue.front()->getDist();
-      for (auto i = 0; dijkstraQueue[i]->getDist()!=size; ++i)        
-        dijkstraQueue[i]->setKnown(true);
+      if (distFromCurr<=currentVertex->getDist()){
+        dijkstraQueue.push_front(adjacentVertex);                        
       
-      /* pop the smallest distance vertex and send it through */
-      Vertex* tmp = dijkstraQueue.front();        
-      dijkstraQueue.pop_front();        
-      calculateShortestPaths(tmp->getName(), 
-                             tmp->getDist());
+      } else { dijkstraQueue.push_back(adjacentVertex); }         
     }
+  }
+  while (!dijkstraQueue.empty()){    
+    // check if there are multiple equivalent minimum distances      
+    int size = dijkstraQueue.front()->getDist();
+    for (auto i = 0; dijkstraQueue[i]->getDist()!=size; ++i)        
+      dijkstraQueue[i]->setKnown(true);      
+      
+    /* pop the smallest distance vertex and send it through */
+    Vertex* tmp = dijkstraQueue.front();        
+    dijkstraQueue.pop_front();        
+    calculateShortestPaths(tmp->getName(),tmp->getDist());
+  }
 }
 
 void Graph::printShortestPaths(char vertex_name) {
-
   stack<Vertex*> pathToSource;     // stack to hold each vertex until start
-  Vertex*        currVertex{};     // stores the current vertex in main for-loop
+  Vertex*        currVertex{};     // current vertex in main for-loop
   
   /* iterate through all vertexes */
   for (auto& v : vertexes) { currVertex = v.second;     
@@ -136,9 +130,8 @@ void Graph::printShortestPaths(char vertex_name) {
         pathToSource.push(currVertex);
         currVertex = vertexes[currVertex->getPath()];
       } while (currVertex->getName() != pathStart->getName());
-      
+
       printf("\n\t%c",pathStart->getName());  
-      
       while (!pathToSource.empty()) {
         printf("->%c",pathToSource.top()->getName());                
         pathToSource.pop();
@@ -161,12 +154,12 @@ void Graph::resetVertexes() {
     v.second->setDist(inf);
     v.second->setPath('\0');
     v.second->setKnown(false);
+    v.second->setIndegree(0);
   }
 }
 
 /*checks if graph is empty*/
-bool Graph::empty() {
-  
+bool Graph::empty() {  
   if(vertexes.empty()) {
     return true;
   } else { return false; }

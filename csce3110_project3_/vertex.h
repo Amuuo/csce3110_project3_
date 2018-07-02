@@ -16,11 +16,11 @@ public:
 
   // GETTERS
   const map<char,int>& getAdj();
-  const int&           getIndegree();
-  const int&           getDist();
-  const char&          getName();
-  const char&          getPath();
-  const bool&          getIsKnown();
+  const int&  getIndegree();
+  const int&  getDist();
+  const char& getName();
+  const char& getPath();
+  const bool& getIsKnown();
   
   // SETTERS
   void setAdjVertex(char,int);
@@ -28,6 +28,7 @@ public:
   void setName(char);
   void setPath(char);
   void setKnown(bool);
+  void setIndegree(int);
   void incrementIndegree();
 
   void operator=(const Vertex&);
@@ -36,9 +37,9 @@ public:
 private:
 
   map<char,int> adj;
-  int           indegree;
-  int           dist;
-  char          name;
-  char          path;
-  bool          isKnown;
+  int   indegree;
+  int   dist;
+  char  name;
+  char  path;
+  bool  isKnown;
 };

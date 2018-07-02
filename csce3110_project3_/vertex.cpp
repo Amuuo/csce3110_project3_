@@ -53,6 +53,7 @@ void Vertex::setDist(int i)             { dist     = i; }
 void Vertex::setName(char c)            { name     = c; }
 void Vertex::setPath(char v)            { path     = v; }
 void Vertex::setKnown(bool b)           { isKnown  = b; }
+void Vertex::setIndegree(int i)         { indegree = i; }
 void Vertex::setAdjVertex(char n,int d) { adj[n]   = d; }
 void Vertex::incrementIndegree()        { indegree++  ; }
 

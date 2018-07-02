@@ -13,48 +13,53 @@ void print_menu(Graph& graph, const char* s="") {
   if (s != "") printf("\n\n\t>> %s",s);
 
   printf("\n\n\tSelection: "); cin >> menu_choice;
-  
+   
   switch (menu_choice) {
     
     case 1:
+      system("clear");
       graph.inputGraphData();      
       graph.updateVertexParameters();
-      print_menu(graph, "Graph info loaded into graph");
+      print_menu(graph);
       break;
     
     case 2: 
+      system("clear");
       graph.printVertexParameters(); 
-      print_menu(graph,"Printed Vertex Parameters.");
+      print_menu(graph);
       break;
     
     case 3:{
       char name;       
       insert_vertex:
-      cout << "\n\tInsert Source Vertex: "; cin >> name; 
+      printf("\n\tInsert Source Vertex: "); cin >> name; 
       graph.pathStart = graph.vertexes[name];
       graph.pathStart->setKnown(true);
       graph.pathStart->setPath(name);
       graph.pathStart->setDist(0);
+      system("clear");
       try {
         graph.calculateShortestPaths(graph.pathStart->getName());                
         graph.printShortestPaths(graph.pathStart->getName());
       }
       catch(exception& e){
-        cout << "\n\tThat vertex doesn't exist (" << e.what() << ")";
+        printf("\n\tThat vertex doesn't exist (%s)",e.what());
         goto insert_vertex;
       }
-      print_menu(graph,"Shortest Paths Printed");
+      print_menu(graph);
       break;
     }
     
     case 4: 
+      system("clear");
       graph.printVertexes(); 
-      print_menu(graph,"Adjacency list printed."); 
+      print_menu(graph); 
       break;
     
     case 5: 
+      system("clear");
       graph.printVertexesIndegree();
-      print_menu(graph, "Vertex Indegree Printed.");
+      print_menu(graph);
       break;
     
     case 6: 
