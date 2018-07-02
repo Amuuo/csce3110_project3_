@@ -7,7 +7,6 @@
 #include<string>
 #include<stack>
 #include<deque>
-#include<set>
 #include<algorithm>
 #include"vertex.h"
 using namespace std;
@@ -19,21 +18,20 @@ public:
   Graph();
   Graph(const Graph&);
   Graph(Graph&&);
-  void insert_vertex(Vertex&&);
-  void print_vertexes();
-  void update_vertex_parameters();
-  void print_vertex_parameters();
-  void input_graph_data();
-  void calculate_shortest_paths(char,int=0);
-  void print_shortest_paths(char);
-  void print_vertexes_indegree();
-  void reset_vertexes();
+  void insertVertex(Vertex&&);
+  void printVertexes();
+  void updateVertexParameters();
+  void printVertexParameters();
+  void inputGraphData();
+  void calculateShortestPaths(char,int=0);
+  void printShortestPaths(char);
+  void printVertexesIndegree();
+  void resetVertexes();
   const int inf = numeric_limits<int>::max();
   bool empty();
   map<char,Vertex*> vertexes{};
-  deque<Vertex*> dijkstra_queue{};
-  Vertex* source;
-  bool source_set;
+  deque<Vertex*> dijkstraQueue{};
+  Vertex* pathStart;
 };
 
 

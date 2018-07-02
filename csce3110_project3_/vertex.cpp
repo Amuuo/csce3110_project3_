@@ -6,7 +6,7 @@ Vertex::Vertex() :
   dist     {numeric_limits<int>::max()},                 
   name     {},                   
   path     {},                    
-  is_known {false} {}
+  isKnown  {false} {}
 
 Vertex::Vertex(char c) : 
   adj      {},                       
@@ -14,7 +14,7 @@ Vertex::Vertex(char c) :
   dist     {numeric_limits<int>::max()},                      
   name     {c},                        
   path     {},                       
-  is_known {false} {}
+  isKnown  {false} {}
 
 Vertex::Vertex(const Vertex& v) {
   for (auto v : v.adj) {
@@ -25,7 +25,7 @@ Vertex::Vertex(const Vertex& v) {
   dist     = v.dist;
   name     = v.name;
   path     = v.path;
-  is_known = v.is_known;
+  isKnown  = v.isKnown;
 }
 
 Vertex::Vertex(Vertex&& v) {  
@@ -36,33 +36,25 @@ Vertex::Vertex(Vertex&& v) {
   dist     = move(v.dist);
   name     = move(v.name);
   path     = move(v.path);
-  is_known = move(v.is_known);
+  isKnown  = move(v.isKnown);
 }
-/*void Vertex::operator=(const Vertex&& v) {
-  adj      = move(v.adj);
-  indegree = move(v.indegree);
-  dist     = move(v.dist);
-  name     = move(v.name);
-  path     = move(v.path);
-  is_known = move(v.is_known);
-} */
 
 // GETTERS
 using map_ = map<char,int>;
-const char& Vertex::get_name()     { return name;     }
-const char& Vertex::get_path()     { return path;     }
-const bool& Vertex::get_is_known() { return is_known; }
-const map_& Vertex::get_adj()      { return adj;      }
-const int & Vertex::get_indegree() { return indegree; }
-const int & Vertex::get_dist()     { return dist;     }
+const char& Vertex::getName()     { return name;     }
+const char& Vertex::getPath()     { return path;     }
+const bool& Vertex::getIsKnown()  { return isKnown;  }
+const map_& Vertex::getAdj()      { return adj;      }
+const int & Vertex::getIndegree() { return indegree; }
+const int & Vertex::getDist()     { return dist;     }
 
 // SETTERS
-void Vertex::set_dist(int i)              { dist     = i; }
-void Vertex::set_name(char c)             { name     = c; }
-void Vertex::set_path(char v)             { path     = v; }
-void Vertex::set_known(bool b)            { is_known = b; }
-void Vertex::set_adj_vertex(char n,int d) { adj[n]   = d; }
-void Vertex::increment_indegree()         { indegree++  ; }
+void Vertex::setDist(int i)             { dist     = i; }
+void Vertex::setName(char c)            { name     = c; }
+void Vertex::setPath(char v)            { path     = v; }
+void Vertex::setKnown(bool b)           { isKnown  = b; }
+void Vertex::setAdjVertex(char n,int d) { adj[n]   = d; }
+void Vertex::incrementIndegree()        { indegree++  ; }
 
 void Vertex::operator=(const Vertex & v) {
   adj      = v.adj;
@@ -70,14 +62,14 @@ void Vertex::operator=(const Vertex & v) {
   dist     = v.dist;
   name     = v.name;
   path     = v.path;
-  is_known = v.is_known;
+  isKnown  = v.isKnown;
 }
 
 Vertex* Vertex::operator=(Vertex* v) {
   return v; 
 }
 
-void Vertex::print_adjacency_list() {
+void Vertex::printAdjacencyList() {
   for (auto& adj_vertex : adj)
     printf("->{%c,%d}",adj_vertex.first,adj_vertex.second);
 }

@@ -12,23 +12,23 @@ public:
   Vertex(const Vertex&);
   Vertex(Vertex&&);
   
-  void print_adjacency_list();
+  void printAdjacencyList();
 
   // GETTERS
-  const map<char,int>& get_adj();
-  const int&           get_indegree();
-  const int&           get_dist();
-  const char&          get_name();
-  const char&          get_path();
-  const bool&          get_is_known();
+  const map<char,int>& getAdj();
+  const int&           getIndegree();
+  const int&           getDist();
+  const char&          getName();
+  const char&          getPath();
+  const bool&          getIsKnown();
   
   // SETTERS
-  void set_adj_vertex(char,int);
-  void set_dist(int);
-  void set_name(char);
-  void set_path(char);
-  void set_known(bool);
-  void increment_indegree();
+  void setAdjVertex(char,int);
+  void setDist(int);
+  void setName(char);
+  void setPath(char);
+  void setKnown(bool);
+  void incrementIndegree();
 
   void operator=(const Vertex&);
   Vertex* operator=(Vertex*);
@@ -40,5 +40,5 @@ private:
   int           dist;
   char          name;
   char          path;
-  bool          is_known;
+  bool          isKnown;
 };
