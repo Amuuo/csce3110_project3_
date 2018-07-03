@@ -33,6 +33,7 @@ public:
   void printVertexesIndegree();
   void resetVertexes();
   void printTopologicalSort();
+  void initStartVertex(char);
   bool empty();
   
   const int               inf = numeric_limits<int>::max();

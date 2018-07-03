@@ -32,12 +32,12 @@ public:
   void incrementIndegree();
   void decrementIndegree();
 
-  void operator=(const Vertex&);
   Vertex* operator=(Vertex*);
-  bool operator>( Vertex*) const;
-  bool operator<( Vertex*) const;
-  bool operator<( Vertex) const;
-  bool operator>( Vertex) const;
+  void    operator=(const Vertex&);
+  bool    operator>( Vertex*) const;
+  bool    operator<( Vertex*) const;
+  bool    operator<( Vertex) const;
+  bool    operator>( Vertex) const;
 private:
 
   map<char,int> adj;

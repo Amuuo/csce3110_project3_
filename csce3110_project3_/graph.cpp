@@ -94,8 +94,8 @@ void Graph::calculateShortestPaths(char currVertexName,
 
     if (!adjacentVertex->getIsKnown()) {            
       
-      if (distFromCurr+currDistFromSource<=adjacentVertex->getDist()) {
-        adjacentVertex->setDist(distFromCurr+currDistFromSource);
+      if (distFromCurr + currDistFromSource <= adjacentVertex->getDist()) {
+        adjacentVertex->setDist(distFromCurr + currDistFromSource);
         adjacentVertex->setPath(currVertexName);
       }
       if (distFromCurr<=currentVertex->getDist()){
@@ -156,24 +156,63 @@ void Graph::resetVertexes() {
 }
 
 void Graph::printTopologicalSort() {
-  auto cmp = [](Vertex* v1, Vertex* v2) {
+  
+  /* compare function for priority queue to 
+     sort vertexes by indegree, low to high */
+  auto cmp = [](Vertex* v1, Vertex* v2) { 
     return v1->getIndegree() > v2->getIndegree();
   };
-  priority_queue<Vertex,vector<Vertex*>,decltype(cmp)> vertexList(cmp);  
-  for (auto v : vertexes) {
-    vertexList.push(new Vertex{*v.second});    
+  
+  /* make a copy of vertexes, and delecare 
+     priority queue function with cmp function */
+  map<char,Vertex*> vertexesCopy;
+  priority_queue<Vertex*,
+                 vector<Vertex*>,
+                 decltype(cmp)> vertexList(cmp);  
+  
+  for (auto& v : vertexes) { vertexesCopy[v.first] = new Vertex{*v.second}; } 
+  for (auto& v : vertexesCopy) { vertexList.push(v.second); }   
+    
+  /* until vertexesCopy is empty, print every
+     vertex with an indegree of 0, and add that 
+     vertexes' adj list to the priority queue */  
+  printf("\n\n\tTopological Sort: ");
+  try { 
+    while(!vertexesCopy.empty()) {        
+      Vertex* tmp = vertexList.top();    
+      while (vertexList.size() != 0) {
+        vertexList.pop();
+      }
+      if (tmp->getIndegree() == 0) {      
+        printf("->%c",tmp->getName());  
+        vertexesCopy.erase(tmp->getName());    
+      }
+      for (auto& v : tmp->getAdj()) {            
+        if (vertexesCopy.find(v.first) == vertexesCopy.end()) {
+          printf("\n\nERROR: Graph is cyclic...");
+          return;
+        } else {
+          vertexesCopy[v.first]->decrementIndegree();
+          vertexList.push(vertexesCopy[v.first]);
+        }
+      }  
+    }
+  } catch (exception& e) { 
+    printf("\n\nCould not access vertexesCopy (%s)", e.what()); 
   }
-  auto count = 0;
-  Vertex* tmp;
-  while(count++ != vertexList.size()-1) {
-    tmp = vertexList.top();
-    vertexList.pop();    
-  }
+  for (auto& v : vertexesCopy) { delete v.second; }
+  resetVertexes();
 }
 
+/* initialize parameters for starting vertex */
+void Graph::initStartVertex(char name) {
+  pathStart = vertexes[name];
+  pathStart->setKnown(true);
+  pathStart->setPath(name);
+  pathStart->setDist(0);
+}
 
-
-/*checks if graph is empty*/
+/* checks if graph is empty */
 bool Graph::empty() {  
   if(vertexes.empty()) {
     return true;
