@@ -38,61 +38,54 @@ void print_menu(Graph& graph) {
 
   switch (menu_choice) {
     
-  case LOAD_GRAPH_DATA:
-
-    graph.vertexes.clear();
-    graph.inputGraphData();      
-    graph.updateVertexParameters();
-    print_menu(graph); break;    
+    case LOAD_GRAPH_DATA:
+      graph.vertexes.clear();
+      graph.inputGraphData();      
+      graph.updateVertexParameters();
+      print_menu(graph); break;    
   
-  case PRINT_VERTEX_DETAILS: 
-
-    graph.printVertexParameters(); 
-    print_menu(graph); break;    
+    case PRINT_VERTEX_DETAILS: 
+      graph.printVertexParameters(); 
+      print_menu(graph); break;    
   
-  case PRINT_SHORTEST_PATHS:{
-    
-    input_check:
-    /* print all available vertexes to choose from */
-    printf("\n\tAvailable Vertexes: ");
-    for (auto& v : graph.vertexes) {
-      printf("%c%c ",v.first, 
-              ++graph.vertexes.find(v.first)!=graph.vertexes.end()?',':'\n');
-    }
-    /* check for vertex input errors and repeat if necessary */
-    char name; 
-    printf("\n\tInsert Starting Vertex: "); cin >> name;             
-    if(graph.vertexes.find(name) == graph.vertexes.end()){
-      system("clear");
-      printf("\n\tNo vertex named %c exist...\n", name);
-      goto input_check;
-    }            
-    graph.initStartVertex(name);
-    graph.calculateShortestPaths(graph.pathStart->getName());                
-    graph.printShortestPaths(graph.pathStart->getName());
-    print_menu(graph); break;
-  }   
+    case PRINT_SHORTEST_PATHS:{
+      input_check:
+      /* print all available vertexes to choose from */
+      printf("\n\tAvailable Vertexes: ");
+      for (auto& v : graph.vertexes) {
+        printf("%c%c ",v.first, 
+                ++graph.vertexes.find(v.first)!=graph.vertexes.end()?',':'\n');
+      }
+      /* check for vertex input errors and repeat if necessary */
+      char name; 
+      printf("\n\tInsert Starting Vertex: "); cin >> name;             
+      if(graph.vertexes.find(name) == graph.vertexes.end()){
+        system("clear");
+        printf("\n\tNo vertex named %c exist...\n", name);
+        goto input_check;
+      }            
+      graph.initStartVertex(name);
+      graph.calculateShortestPaths(graph.pathStart->getName());                
+      graph.printShortestPaths(graph.pathStart->getName());
+      print_menu(graph); break;
+    }   
 
-  case PRINT_ADJACENCY_LIST:
-
-    graph.printVertexes(); 
-    print_menu(graph); break;    
+    case PRINT_ADJACENCY_LIST:
+      graph.printVertexes(); 
+      print_menu(graph); break;    
  
-  case PRINT_INDEGREES:
-
-    graph.printVertexesIndegree();
-    print_menu(graph); break;    
+    case PRINT_INDEGREES:
+      graph.printVertexesIndegree();
+      print_menu(graph); break;    
   
-  case PRINT_TOPOLOGICAL_SORT: 
-
-    graph.printTopologicalSort();
-    print_menu(graph); break;
+    case PRINT_TOPOLOGICAL_SORT: 
+      graph.printTopologicalSort();
+      print_menu(graph); break;
   
-  case EXIT:
-
-    printf("\n\nExiting program...");
-    exit(1); break;
+    case EXIT:
+      printf("\n\nExiting program...");
+      exit(1); break;
     
-   default: break;
+     default: break;
   }
 }

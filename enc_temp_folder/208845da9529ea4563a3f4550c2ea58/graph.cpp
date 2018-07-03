@@ -156,6 +156,7 @@ void Graph::resetVertexes() {
 }
 
 void Graph::printTopologicalSort() {
+  
   /* compare function for priority queue to 
      sort vertexes by indegree, low to high */
   auto cmp = [](Vertex* v1, Vertex* v2) { 
@@ -213,6 +214,8 @@ void Graph::initStartVertex(char name) {
 
 /* checks if graph is empty */
 bool Graph::empty() {  
-  return vertexes.empty() ? true : false;        
+  if(vertexes.empty()) {
+    return true;
+  } else { return false; }
 }
 
