@@ -39,7 +39,6 @@ public:
   
   const int               inf = numeric_limits<int>::max();
   map<char,Vertex*>       vertexes{};
-  //priority_queue<Vertex*,less<int>> dijkstraQueue{};
   Vertex*                 pathStart;
 };
 
