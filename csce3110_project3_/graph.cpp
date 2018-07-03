@@ -142,6 +142,27 @@ void Graph::printShortestPaths(char vertex_name) {
   resetVertexes();
 }
 
+void Graph::twoPointPrintShortest(char startVertex, char endVertex) {
+    
+  stack<Vertex*> pathToStart;
+  Vertex* currVertex = vertexes[endVertex];
+  if (currVertex->getDist() != inf) { 
+    /* push vertexes into stack until tmp->path == starting vertex */      
+    do {
+      pathToStart.push(currVertex);
+      currVertex = vertexes[currVertex->getPath()];
+    } while (currVertex->getName() != pathStart->getName());
+
+    printf("\n\t%-2d : ",vertexes[endVertex]->getDist()); 
+    printf("%c",pathStart->getName());  
+    while (!pathToStart.empty()) {
+      printf("->%c",pathToStart.top()->getName());                
+      pathToStart.pop();
+    }      
+    
+  } else { printf("\n\tNo path to %c",currVertex->getName()); }
+}
+
 void Graph::printVertexesIndegree() {
   for (auto& v : vertexes)
     printf("\n\t%c: %d",v.first,v.second->getIndegree());      

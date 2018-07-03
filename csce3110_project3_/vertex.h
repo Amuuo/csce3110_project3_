@@ -34,10 +34,10 @@ public:
 
   Vertex* operator=(Vertex*);
   void    operator=(const Vertex&);
-  bool    operator>( Vertex*) const;
-  bool    operator<( Vertex*) const;
-  bool    operator<( Vertex) const;
-  bool    operator>( Vertex) const;
+  bool    operator>(Vertex*) const;
+  bool    operator<(Vertex*) const;
+  bool    operator<(Vertex)  const;
+  bool    operator>(Vertex)  const;
 private:
 
   map<char,int> adj;

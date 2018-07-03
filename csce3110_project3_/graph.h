@@ -30,6 +30,7 @@ public:
   void inputGraphData();
   void calculateShortestPaths(char,int=0);
   void printShortestPaths(char);
+  void twoPointPrintShortest(char,char);
   void printVertexesIndegree();
   void resetVertexes();
   void printTopologicalSort();
