@@ -1,20 +1,12 @@
 #include "vertex.h"
 
-Vertex::Vertex() : 
-  adj      {},                 
-  indegree {},                                     
-  dist     {numeric_limits<int>::max()},                 
-  name     {},                   
-  path     {},                    
-  isKnown  {false} {}
+Vertex::Vertex() : adj{}, indegree {},                                     
+                   dist{numeric_limits<int>::max()}, name{},                   
+                   path{}, isKnown{false} {}
 
-Vertex::Vertex(char c) : 
-  adj      {},                       
-  indegree {},                       
-  dist     {numeric_limits<int>::max()},                      
-  name     {c},                        
-  path     {},                       
-  isKnown  {false} {}
+Vertex::Vertex(char c) : adj{}, indegree{},                       
+                         dist{numeric_limits<int>::max()},                      
+                         name{c}, path{}, isKnown{false} {}
 
 Vertex::Vertex(const Vertex& v) {        
   adj      = v.adj;
@@ -51,10 +43,7 @@ void Vertex::setKnown(bool b)           { isKnown  = b; }
 void Vertex::setIndegree(int i)         { indegree = i; }
 void Vertex::setAdjVertex(char n,int d) { adj[n]   = d; }
 void Vertex::incrementIndegree()        { indegree++  ; }
-
-void Vertex::decrementIndegree() {
-  --indegree;
-}
+void Vertex::decrementIndegree()        { --indegree;   }
 
 void Vertex::operator=(const Vertex & v) {
   adj      = v.adj;
@@ -64,27 +53,11 @@ void Vertex::operator=(const Vertex & v) {
   path     = v.path;
   isKnown  = v.isKnown;
 }
-
-Vertex* Vertex::operator=(Vertex* v) {
-  return v; 
-}
-
-bool Vertex::operator>( Vertex *v2) const {
-  
-  return dist > v2->getDist();
-}
-
-bool Vertex::operator<( Vertex * v1) const {
-  return dist < v1->getDist();
-}
-
-bool Vertex::operator<( Vertex v) const {
-  return dist < v.getDist();
-}
-
-bool Vertex::operator>( Vertex v) const {
-  return dist > v.getDist();
-}
+Vertex* Vertex::operator=(Vertex* v)       { return v; }
+bool    Vertex::operator>(Vertex *v) const { return dist > v->getDist(); }
+bool    Vertex::operator<(Vertex *v) const { return dist < v->getDist(); }
+bool    Vertex::operator<(Vertex v)  const { return dist < v.getDist();  }
+bool    Vertex::operator>(Vertex v)  const { return dist > v.getDist();  }
 
 void Vertex::printAdjacencyList() {
   for (auto& adj_vertex : adj)
