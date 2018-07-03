@@ -15,12 +15,12 @@ public:
   void printAdjacencyList();
 
   /* GETTERS */
-  const map<char,int>& getAdj();
-  const int&  getIndegree();
-  const int&  getDist();
-  const char& getName();
-  const char& getPath();
-  const bool& getIsKnown();
+  const map<char,int> getAdj();
+  const int  getIndegree();
+  const int  getDist();
+  const char getName();
+  const char getPath();
+  const bool getIsKnown();
   
   /* SETTERS */
   void setAdjVertex(char,int);
@@ -30,10 +30,14 @@ public:
   void setKnown(bool);
   void setIndegree(int);
   void incrementIndegree();
+  void decrementIndegree();
 
   void operator=(const Vertex&);
   Vertex* operator=(Vertex*);
-
+  bool operator>( Vertex*) const;
+  bool operator<( Vertex*) const;
+  bool operator<( Vertex) const;
+  bool operator>( Vertex) const;
 private:
 
   map<char,int> adj;

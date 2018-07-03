@@ -82,10 +82,11 @@ void Graph::inputGraphData() {
 void Graph::calculateShortestPaths(char currVertexName,
                                    int currDistFromSource) {
   // all variables to help make code more readable  
+  priority_queue<Vertex*> dijkstraQueue{};
   Vertex* adjacentVertex{};             
   Vertex* currentVertex = vertexes[currVertexName];
-  int     distFromCurr;
-    
+  int     distFromCurr{};
+
   // run dijkstra's
   for (auto& v : currentVertex->getAdj()) {          
     adjacentVertex = vertexes[v.first];
@@ -98,21 +99,19 @@ void Graph::calculateShortestPaths(char currVertexName,
         adjacentVertex->setPath(currVertexName);
       }
       if (distFromCurr<=currentVertex->getDist()){
-        dijkstraQueue.push_front(adjacentVertex);                        
+        dijkstraQueue.push(adjacentVertex);                        
       
-      } else { dijkstraQueue.push_back(adjacentVertex); }         
+      } else { dijkstraQueue.push(adjacentVertex); }         
     }
   }
   while (!dijkstraQueue.empty()){    
-    // check if there are multiple equivalent minimum distances      
-    int size = dijkstraQueue.front()->getDist();
-    for (auto i = 0; dijkstraQueue[i]->getDist()!=size; ++i)        
-      dijkstraQueue[i]->setKnown(true);      
-      
-    /* pop the smallest distance vertex and send it through */
-    Vertex* tmp = dijkstraQueue.front();        
-    dijkstraQueue.pop_front();        
-    calculateShortestPaths(tmp->getName(),tmp->getDist());
+    
+    /* pop the smallest distance vertex and send it through */    
+    Vertex* tmp;    
+    tmp = dijkstraQueue.top();        
+    dijkstraQueue.pop();
+    tmp->setKnown(true);
+    calculateShortestPaths(tmp->getName(),tmp->getDist());  
   }
 }
 
@@ -130,7 +129,7 @@ void Graph::printShortestPaths(char vertex_name) {
         currVertex = vertexes[currVertex->getPath()];
       } while (currVertex->getName() != pathStart->getName());
 
-      printf("\n\t%d : ",v.second->getDist()); 
+      printf("\n\t%-2d : ",v.second->getDist()); 
       printf("%c",pathStart->getName());  
       while (!pathToStart.empty()) {
         printf("->%c",pathToStart.top()->getName());                
@@ -157,7 +156,22 @@ void Graph::resetVertexes() {
 }
 
 void Graph::printTopologicalSort() {
+  auto cmp = [](Vertex* v1, Vertex* v2) {
+    return v1->getIndegree() > v2->getIndegree();
+  };
+  priority_queue<Vertex,vector<Vertex*>,decltype(cmp)> vertexList(cmp);  
+  for (auto v : vertexes) {
+    vertexList.push(new Vertex{*v.second});    
+  }
+  auto count = 0;
+  Vertex* tmp;
+  while(count++ != vertexList.size()-1) {
+    tmp = vertexList.top();
+    vertexList.pop();    
+  }
 }
+
+
 
 /*checks if graph is empty*/
 bool Graph::empty() {  

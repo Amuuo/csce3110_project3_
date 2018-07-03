@@ -36,12 +36,12 @@ Vertex::Vertex(Vertex&& v) {
 
 // GETTERS
 using map_ = map<char,int>;
-const char& Vertex::getName()     { return name;     }
-const char& Vertex::getPath()     { return path;     }
-const bool& Vertex::getIsKnown()  { return isKnown;  }
-const map_& Vertex::getAdj()      { return adj;      }
-const int&  Vertex::getIndegree() { return indegree; }
-const int&  Vertex::getDist()     { return dist;     }
+const char Vertex::getName()     { return name;     }
+const char Vertex::getPath()     { return path;     }
+const bool Vertex::getIsKnown()  { return isKnown;  }
+const map_ Vertex::getAdj()      { return adj;      }
+const int  Vertex::getIndegree() { return indegree; }
+const int  Vertex::getDist()     { return dist;     }
 
 // SETTERS
 void Vertex::setDist(int i)             { dist     = i; }
@@ -51,6 +51,10 @@ void Vertex::setKnown(bool b)           { isKnown  = b; }
 void Vertex::setIndegree(int i)         { indegree = i; }
 void Vertex::setAdjVertex(char n,int d) { adj[n]   = d; }
 void Vertex::incrementIndegree()        { indegree++  ; }
+
+void Vertex::decrementIndegree() {
+  --indegree;
+}
 
 void Vertex::operator=(const Vertex & v) {
   adj      = v.adj;
@@ -63,6 +67,23 @@ void Vertex::operator=(const Vertex & v) {
 
 Vertex* Vertex::operator=(Vertex* v) {
   return v; 
+}
+
+bool Vertex::operator>( Vertex *v2) const {
+  
+  return dist > v2->getDist();
+}
+
+bool Vertex::operator<( Vertex * v1) const {
+  return dist < v1->getDist();
+}
+
+bool Vertex::operator<( Vertex v) const {
+  return dist < v.getDist();
+}
+
+bool Vertex::operator>( Vertex v) const {
+  return dist > v.getDist();
 }
 
 void Vertex::printAdjacencyList() {

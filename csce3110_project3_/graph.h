@@ -8,6 +8,10 @@
 #include<stack>
 #include<deque>
 #include<algorithm>
+#include<thread>
+#include<vector>
+#include<functional>
+#include<queue>
 #include"vertex.h"
 using namespace std;
 
@@ -31,10 +35,10 @@ public:
   void printTopologicalSort();
   bool empty();
   
-  const int          inf = numeric_limits<int>::max();
-  map<char,Vertex*>  vertexes{};
-  deque<Vertex*>     dijkstraQueue{};
-  Vertex*            pathStart;
+  const int               inf = numeric_limits<int>::max();
+  map<char,Vertex*>       vertexes{};
+  //priority_queue<Vertex*,less<int>> dijkstraQueue{};
+  Vertex*                 pathStart;
 };
 
 
