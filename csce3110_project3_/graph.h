@@ -33,6 +33,7 @@ public:
   void twoPointPrintShortest(char,char);
   void printVertexesIndegree();
   void resetVertexes();
+  void topologicalOrder(Vertex*,map<char,Vertex*>&,stack<Vertex*>&);
   void printTopologicalSort();
   void initStartVertex(char);
   bool empty();

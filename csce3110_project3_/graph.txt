@@ -1,0 +1,7 @@
+A 3 B 12 C 4 F
+B 19 G 6 H 4 C
+C 2 G 18 H 12 F
+D 7 E
+F 10 G
+G 20 H
+H

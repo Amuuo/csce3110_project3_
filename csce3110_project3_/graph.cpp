@@ -29,6 +29,7 @@ void Graph::updateVertexParameters() {
   for (auto& vertex : vertexes)
     for (auto& adjVertex : vertex.second->getAdj()) 
       vertexes[adjVertex.first]->incrementIndegree();
+
 }
 
 void Graph::printVertexParameters() {
@@ -94,12 +95,14 @@ void Graph::calculateShortestPaths(char currVertexName,
 
     if (!adjacentVertex->getIsKnown()) {            
       
-      if (distFromCurr + currDistFromSource <= adjacentVertex->getDist()) {
+      if (distFromCurr + currDistFromSource < adjacentVertex->getDist()) {
         adjacentVertex->setDist(distFromCurr + currDistFromSource);
         adjacentVertex->setPath(currVertexName);
       }
       if (distFromCurr<=currentVertex->getDist()){
-        dijkstraQueue.push(adjacentVertex);                        
+        //dijkstraQueue.push(adjacentVertex);                        
+        calculateShortestPaths(adjacentVertex->getName(), 
+                               adjacentVertex->getDist());
       
       } else { dijkstraQueue.push(adjacentVertex); }         
     }
@@ -107,11 +110,11 @@ void Graph::calculateShortestPaths(char currVertexName,
   while (!dijkstraQueue.empty()){    
     
     /* pop the smallest distance vertex and send it through */    
-    Vertex* tmp;    
+    /*Vertex* tmp;    
     tmp = dijkstraQueue.top();        
     dijkstraQueue.pop();
     tmp->setKnown(true);
-    calculateShortestPaths(tmp->getName(),tmp->getDist());  
+    calculateShortestPaths(tmp->getName(),tmp->getDist());  */
   }
 }
 
@@ -142,7 +145,8 @@ void Graph::printShortestPaths(char vertex_name) {
   resetVertexes();
 }
 
-void Graph::twoPointPrintShortest(char startVertex, char endVertex) {
+void Graph::twoPointPrintShortest(char startVertex, 
+                                  char endVertex) {
     
   stack<Vertex*> pathToStart;
   Vertex* currVertex = vertexes[endVertex];
@@ -176,49 +180,40 @@ void Graph::resetVertexes() {
   }
 }
 
-void Graph::printTopologicalSort() {
-  /* compare function for priority queue to 
-     sort vertexes by indegree, low to high */
-  auto cmp = [](Vertex* v1, Vertex* v2) { 
-    return v1->getIndegree() > v2->getIndegree();
-  };
-  
-  /* make a copy of vertexes, and delecare 
-     priority queue function with cmp function */
-  map<char,Vertex*> vertexesCopy;
-  priority_queue<Vertex*,
-                 vector<Vertex*>,
-                 decltype(cmp)> vertexList(cmp);  
-  
-  for (auto& v : vertexes) { vertexesCopy[v.first] = new Vertex{*v.second}; } 
-  for (auto& v : vertexesCopy) { vertexList.push(v.second); }   
-    
-  /* until vertexesCopy is empty, print every
-     vertex with an indegree of 0, and add that 
-     vertexes' adj list to the priority queue */  
-  printf("\n\n\tTopological Sort: ");
-  try { 
-    while(!vertexesCopy.empty()) {        
-      Vertex* tmp = vertexList.top();    
-      while (vertexList.size() != 0) {
-        vertexList.pop();
-      }
-      if (tmp->getIndegree() == 0) {      
-        printf("->%c",tmp->getName());  
-        vertexesCopy.erase(tmp->getName());    
-      }
-      for (auto& v : tmp->getAdj()) {            
-        if (vertexesCopy.find(v.first) == vertexesCopy.end()) {
-          printf("\n\nERROR: Graph is cyclic...");
-          return;
-        } else {
-          vertexesCopy[v.first]->decrementIndegree();
-          vertexList.push(vertexesCopy[v.first]);
-        }
-      }  
+void Graph::topologicalOrder(Vertex * tmp_v,
+                             map<char,Vertex*>& copy, 
+                             stack<Vertex*>& stack) {
+  tmp_v->setKnown(true);
+  /* recursively step to all adj vertexes and 
+     push to stack*/
+  for (auto& v : tmp_v->getAdj()) {
+    if (!copy[v.first]->getIsKnown()) {
+      topologicalOrder(copy[v.first],copy,stack);
     }
-  } catch (exception& e) { 
-    printf("\n\nCould not access vertexesCopy (%s)", e.what()); 
+  }
+  stack.push(tmp_v);
+}
+
+void Graph::printTopologicalSort() {
+
+  map<char,Vertex*> vertexesCopy;  // holds copy of vertexes map
+  stack<Vertex*>    stack;         // stack that holds order of vertexes
+  
+  /* copy vertexes map */
+  for (auto& v : vertexes) {     
+    vertexesCopy[v.first] = new Vertex{*v.second}; 
+    vertexesCopy[v.first]->setKnown(false);
+  }      
+  printf("\n\n\tTopological Sort: ");
+  /* traverse through graph until all are known */
+  for(auto& v : vertexesCopy){
+    if(!v.second->getIsKnown()){
+      topologicalOrder(v.second,vertexesCopy,stack);
+    }
+    while (!stack.empty()) {
+      cout << stack.top()->getName() << "->";
+      stack.pop();
+    }
   }
   for (auto& v : vertexesCopy) { delete v.second; }
   resetVertexes();
